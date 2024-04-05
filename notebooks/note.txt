@@ -1,0 +1,5 @@
+# feature engineering
+    - make features from season as informed by PCA result
+        - because is appears there are fundamentally two types of days
+        - could be as simple as a mapping
+        ref: https://scikit-learn.org/stable/auto_examples/applications/plot_cyclical_feature_engineering.html#periodic-spline-features
