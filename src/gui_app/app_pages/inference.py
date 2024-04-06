@@ -14,9 +14,6 @@ def main():
     plot_data = st_utils.get_prediction_data(n_days=n_days, model_name=model_name)
     tseries_plot_ui(plot_data=plot_data, ui_model_name=ui_model_name)
 
-    # if model_name == "linear_gam":
-    #     gam_partial_dependence_ui()
-
 
 def model_select_ui():
     st.sidebar.markdown("# Model")

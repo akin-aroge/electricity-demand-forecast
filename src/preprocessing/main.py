@@ -3,6 +3,7 @@
 import pandas as pd
 import logging
 import argparse
+
 from src import utils
 from src.preprocessing import preprocessing as prep
 
@@ -22,8 +23,6 @@ def main(save_data: bool = True):
 
     load_data = prep.LoadDataPreprocessor().fit_transform(raw_load_data)
     temp_data = prep.TempDataPreprocessor().fit(raw_temp_data).transform(raw_temp_data)
-
-    # utils.save_value(list(temp_data.columns), fname=)
 
     load_data.drop(
         labels=["datetime", "hour", "date"], axis=1, inplace=True, errors="ignore"

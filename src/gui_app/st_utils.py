@@ -18,9 +18,6 @@ def get_prediction_data(n_days: int, model_name: str):
         model_name=model_name, n_days=n_days
     )  # TODO: consider changing this to dates not days?
     actual_data = inf.get_actual_load_data(prediction_dates)
-    print(prediction_data)
-    print(actual_data)
-    print(len(prediction_dates), len(prediction_data), len(actual_data))
     plot_data = pd.DataFrame(
         {
             "datetime": prediction_dates.values,

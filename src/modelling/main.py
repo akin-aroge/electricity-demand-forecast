@@ -1,7 +1,6 @@
 """main script for modelling"""
 
 import logging
-import configparser
 import argparse
 import warnings
 import numpy as np
@@ -140,10 +139,6 @@ def make_pipeline():
                     derive_func=transforms.multiply_columns,
                 ),
             ),
-            # ("create_interaction_month_hour_profile_2",transforms.MultiColumnTransformer(column_names=['month', 'profile_2'],
-            #                                             new_column_name='month_hour_p2',
-            #                                             derive_func=transforms.multiply_columns)
-            #                                             ),
             (
                 "create_interaction_month_hour",
                 transforms.MultiColumnTransformer(
@@ -152,10 +147,6 @@ def make_pipeline():
                     derive_func=transforms.multiply_columns,
                 ),
             ),
-            # ("create_interaction_temp_sq_hour",transforms.MultiColumnTransformer(column_names=['temp_sq', 'hour'],
-            #                                             new_column_name='temp_sq_hour',
-            #                                             derive_func=transforms.multiply_columns)
-            #                                             ),
             (
                 "create_trend",
                 transforms.DerivedColumnTransformer(
@@ -190,9 +181,6 @@ def main(model_name: str, n_tuning_trials=1):
     model_class = training.get_model_class(model_name=model_name)
     model = model_class(**model_params)
 
-    # categorical_column_names = ['hour', 'month']
-    # columns_to_drop = ['date', 'hour', 'datetime']
-
     preprocessed_data = training.get_training_data(file_path=preprocessed_data_path)
 
     training_data, testing_data = train_test_split(
@@ -200,29 +188,6 @@ def main(model_name: str, n_tuning_trials=1):
     )
 
     pipeline = make_pipeline()
-    # pipeline = Pipeline(
-    #     steps=[
-    #         ("create_weekend_col", transforms.DerivedColumnTransformer(column_name='datetime',
-    #                                                     new_column_name='is_weekend',
-    #                                                     derive_func=transforms.is_weekend)
-    #                                                     ),
-    #         ("create_month_col", transforms.DerivedColumnTransformer(column_name='datetime',
-    #                                                     new_column_name='month',
-    #                                                     derive_func=transforms.get_month)
-    #                                                     ),
-    #         ("create_holiday_col",transforms.DerivedColumnTransformer(column_name='datetime',
-    #                                                     new_column_name='is_holiday',
-    #                                                     derive_func=transforms.is_holiday)
-    #                                                     ),
-    #         ("create_hour_col",transforms.DerivedColumnTransformer(column_name='datetime',
-    #                                                     new_column_name='hour',
-    #                                                     derive_func=transforms.get_hour)
-    #                                                     ),
-    #         ("one_hot_categorical_column", transforms.ColumsOneHotEncoder(categorical_column_names=categorical_column_names)),
-    #         ('drop_columns', transforms.ColumnsRemover(column_names=columns_to_drop)),
-
-    #     ]
-    # )
 
     model_output_path = model_output_dir.joinpath(model_name + ".pkl")
     trainer = training.ModelTrainer(
@@ -236,7 +201,6 @@ def main(model_name: str, n_tuning_trials=1):
 
     logger.info("==============tuning started=============")
     trainer.tune_model(n_trials=n_tuning_trials)
-    # logger.info('tuning completed')
     logger.info("==============training started====================")
     model = trainer.train_model(save_model=True)
     logger.info("==========training completed===============")

@@ -10,12 +10,9 @@ logger = logging.getLogger(__name__)
 
 class LoadDataPreprocessor(BaseEstimator, TransformerMixin):
 
-    # def __init__(self, temp_data:pd.DataFrame, load_data:pd.DataFrame) -> None:
-    #     self.temp_data = temp_data
-    #     self.load_data = load_data
 
     def __init__(self) -> None:
-        self.a = "a"
+        super().__init__()
 
     def fit(self, X, y=None):
 

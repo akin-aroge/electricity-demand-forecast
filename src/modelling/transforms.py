@@ -3,9 +3,6 @@
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import OneHotEncoder
 import logging
-from sklearn.pipeline import Pipeline
-from sklearn.mixture import GaussianMixture as GM
-from sklearn.decomposition import PCA
 import pandas as pd
 import numpy as np
 from pandas.tseries.holiday import USFederalHolidayCalendar as hol_calendar
@@ -299,23 +296,7 @@ class HourlyProfileTransformer(BaseEstimator, TransformerMixin):
         return X
 
 
-# class LagColumnTransformer(BaseEstimator, TransformerMixin):
-#     def __init__(self, column_name, n_hours) -> None:
-#         self.column_name = column_name
-
-#     def fit(self, X, y=None):
-#         return self
-
-#     def transform(self, X: pd.DataFrame):
-#         initial_cols = list(X.columns)
-#         X = X.drop(self.column_names, axis=1,  errors='ignore')
-#         final_column_names = list(X.columns)
-#         dropped_columns = list(set(initial_cols) - set(final_column_names))
-#         logging.getLogger(self.__class__.__name__).info(f"dropped colums: {dropped_columns}")
-#         return X
-
-
-## pure functions only
+## pure functions only ##
 def is_weekend(dates: pd.Series):
 
     is_weekend = np.uint8(dates.dt.day_of_week > 4)
@@ -365,10 +346,6 @@ def multiply_columns(df: pd.DataFrame):
     prod = df.iloc[:, 0] * df.iloc[:, 1]
 
     return prod
-
-
-# def trend(dates:pd.Series):
-#     return np.arange(0, len(dates))
 
 
 def trend(dates: pd.Series):

@@ -2,17 +2,12 @@
 
 import sklearn
 from sklearn.linear_model import Ridge
-from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import cross_val_score, TimeSeriesSplit
 import numpy as np
-import optuna
 from abc import ABC, abstractmethod
-import configparser
 import logging
-
-from src import utils
 
 
 class WrappedModel(ABC):
@@ -76,7 +71,6 @@ class WrappedRidgeRegression(WrappedModel):
 
     def objective_function(self, trial, X, y, transform_pipeline: Pipeline):
         alpha = trial.suggest_float("alpha", 0.1, 5, log=True)
-        # penalty = trial.suggest_categorical("penalty", ["l1", "l2"])
 
         model = self.model(alpha=alpha)
 
@@ -98,10 +92,8 @@ class WrappedRidgeRegression(WrappedModel):
 
     def init_model(self):
         if self.tuned_params is not None:
-            print("using tuned params")
             model = self.model(**self.tuned_params)
         else:
-            print("not using tuned")
             model = self.model(alpha=self.alpha, verbose=1)
 
         self.model = model
@@ -139,7 +131,6 @@ class WrappedXgboost(WrappedModel):
         learning_rate = trial.suggest_float("learning_rate", 0.001, 0.9, log=True)
         min_child_weight = trial.suggest_int("min_child_weight", 1, 10)
         subsample = trial.suggest_float("subsample", 0.5, 1.0)
-        # colsample_bytree = trial.suggest_float("colsample_bytree", 0.5, 1.0)
         gamma = trial.suggest_float("gamma", 0, 1.0)
         reg_alpha = trial.suggest_float("reg_alpha", 0, 1)
         reg_lambda = trial.suggest_float("reg_lambda", 0, 1)
@@ -150,11 +141,9 @@ class WrappedXgboost(WrappedModel):
             learning_rate=learning_rate,
             min_child_weight=min_child_weight,
             subsample=subsample,
-            # colsample_bytree=colsample_bytree,
             gamma=gamma,
             reg_alpha=reg_alpha,
             reg_lambda=reg_lambda,
-            # use_label_encoder=self.use_label_encoder,
             n_jobs=self.n_jobs,
         )
         model_pipeline = _make_model_pipeline(

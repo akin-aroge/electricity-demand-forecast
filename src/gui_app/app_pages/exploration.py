@@ -24,10 +24,7 @@ def main():
     )
 
     data = st_utils.get_exploration_data()
-    # year_filter = year_slider()
 
-    # data = filter_data_year(year_filter=year_filter, data=data, date_column='datetime')
-    # print(len(data))
     sec_overall_load(data=data)
     sec_temperature_timeseries(data=data, temperature_stations_filter=True)
     sec_demand_by_time()
@@ -84,12 +81,10 @@ def sec_temperature_timeseries(data: pd.DataFrame, temperature_stations_filter=F
         The figure shows a plot of hourly temperatures collected across select temperature stations.
         """
     )
-    # data = data.drop(labels=["load"], axis=1).set_index("datetime")
 
     if temperature_stations_filter:
         temp_station_idx = sec_temperature_stations()
         temp_col_names = st_utils.get_temperature_stations()
-        print(temp_col_names)
         select_names = [temp_col_names[idx - 1] for idx in temp_station_idx]
         data = data[select_names]
 
@@ -257,5 +252,5 @@ def filter_data_year(year_filter, data: pd.DataFrame, date_column):
         (data[date_column] < str(select_max_year + 1))
         & (data[date_column] > str(select_min_year))
     ]
-    print(data)
+
     return data

@@ -4,14 +4,14 @@ import pandas as pd
 import logging
 import pathlib
 import optuna
-from sklearn.metrics import mean_absolute_error, mean_absolute_percentage_error
+from sklearn.metrics import mean_absolute_percentage_error
 from sklearn.pipeline import Pipeline
+
 from src.modelling import models
-
-
 from src import utils
 
 logger = logging.getLogger(__name__)
+config = utils.get_config("config/config.ini")
 
 
 class ModelTrainer:
@@ -59,9 +59,7 @@ class ModelTrainer:
         self.best_params = study.best_params
         self.tune_best_score = study.best_value
         self.model_class.tuned_params = study.best_params
-        # model = self.model_class.init_model(params=self.best_params)
         self.model_class.init_model()
-        # self.model_class.model = model
         self.model_class.is_tuned = True
         print(f"best score is: {self.tune_best_score}")
 
@@ -122,24 +120,9 @@ def get_training_data(file_path: pathlib.Path = None):
 
     df = pd.read_csv(file_path)
     df["datetime"] = pd.to_datetime(df["datetime"].values)
-    # print(df.head(2))
     df = df[df.datetime.dt.year < 2008]
 
     return df
-
-
-# def train_test_split(df: pd.DataFrame, test_size_frac):
-
-
-#     X_train, X_test, y_train, y_test = train_test_split(
-#         X, y, test_size=test_size_frac, shuffle=False
-#     )
-
-# logger.info(
-#     f"data split into: training ({training_data.shape}) and test ({testing_data.shape}) sets "
-# )
-
-# return training_data, testing_data
 
 
 def split_Xy(df: pd.DataFrame, label_col_name: str):
@@ -180,9 +163,6 @@ def get_temperature_column_names():
     )
     temperature_column_names = utils.load_value(temperature_column_names_path)
     return temperature_column_names
-
-
-config = utils.get_config("config/config.ini")
 
 
 def save_data(data: pd.DataFrame, path: pathlib.Path):

@@ -34,7 +34,6 @@ def get_config(config_rel_path: pathlib.Path, interpolation=None):
 def get_full_path(rel_path: pathlib.Path):
 
     proj_root = get_proj_root()
-
     full_path = proj_root.joinpath(rel_path)
 
     return full_path

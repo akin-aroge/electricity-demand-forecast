@@ -63,5 +63,5 @@ def get_actual_load_data(dates):
     )
     select_load = preprocessed_load[
         preprocessed_load["datetime"].isin(dates)
-    ]  # [['load']]
+    ] 
     return select_load
