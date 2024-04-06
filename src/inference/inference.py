@@ -42,9 +42,11 @@ def get_datetime_temperature(datetimes):
         .fit(raw_temperature_data)
         .transform(raw_temperature_data)
     )
+    print(len(preprocessed_temperature_data))
     select_temperatures = preprocessed_temperature_data[
         preprocessed_temperature_data["datetime"].isin(datetimes)
-    ].iloc[:, 1:]
+    ].iloc[:, :]
+    print(len(select_temperatures))
     return select_temperatures
 
 

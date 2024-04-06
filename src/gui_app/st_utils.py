@@ -12,15 +12,17 @@ import matplotlib.figure
 
 def get_prediction_data(n_days: int, model_name: str):
 
-    prediction_dates = inf.generate_hr_dates_from_days(n_days=n_days)
+    # prediction_dates = inf.generate_hr_dates_from_days(n_days=n_days)
 
     prediction_data = inf_main.main(
         model_name=model_name, n_days=n_days
     )  # TODO: consider changing this to dates not days?
+    prediction_dates = prediction_data.datetime.values
     actual_data = inf.get_actual_load_data(prediction_dates)
     plot_data = pd.DataFrame(
         {
-            "datetime": prediction_dates.values,
+            # "datetime": prediction_dates.values,
+            "datetime": prediction_data.datetime.values,
             "predicted": prediction_data.predicted_load.values,
             "actual": actual_data.load.values,
         }
@@ -52,7 +54,6 @@ MODEL_CHOICES = {
 
 
 def get_chart(data):
-    # data.date = data.index
     hover = alt.selection_single(
         fields=["datetime"],
         nearest=True,

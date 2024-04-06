@@ -47,32 +47,6 @@ def make_pipeline():
                 ),
             ),
             (
-                "create_mean_temperature",
-                transforms.DerivedColumnTransformer(
-                    column_name=optimal_temperature_column_names,
-                    new_column_name="mean_temp",
-                    derive_func=np.median,
-                    func_kwargs={"axis": 1},
-                ),
-            ),
-            (
-                "create_temperature_squared",
-                transforms.DerivedColumnTransformer(
-                    column_name="mean_temp",
-                    new_column_name="temp_sq",
-                    derive_func=np.square,
-                ),
-            ),
-            (
-                "create_temperature_cube",
-                transforms.DerivedColumnTransformer(
-                    column_name="mean_temp",
-                    new_column_name="temp_cube",
-                    derive_func=transforms.exp_value,
-                    func_kwargs={"exp": 3},
-                ),
-            ),
-            (
                 "create_weekend_col",
                 transforms.DerivedColumnTransformer(
                     column_name="datetime",
@@ -105,12 +79,32 @@ def make_pipeline():
                 ),
             ),
             (
-                "create_non_linear_hour_features",
-                transforms.HourlyProfileTransformer(
-                    datetime_column_name="datetime",
-                    feature_path=daily_load_profile_path,
+                "create_mean_temperature",
+                transforms.DerivedColumnTransformer(
+                    column_name=optimal_temperature_column_names,
+                    new_column_name="mean_temp",
+                    derive_func=np.median,
+                    func_kwargs={"axis": 1},
                 ),
             ),
+            (
+                "create_temperature_squared",
+                transforms.DerivedColumnTransformer(
+                    column_name="mean_temp",
+                    new_column_name="temp_sq",
+                    derive_func=np.square,
+                ),
+            ),
+            (
+                "create_temperature_cube",
+                transforms.DerivedColumnTransformer(
+                    column_name="mean_temp",
+                    new_column_name="temp_cube",
+                    derive_func=transforms.exp_value,
+                    func_kwargs={"exp": 3},
+                ),
+            ),
+
             # ("create_interaction_temp_hour_profile_1",transforms.MultiColumnTransformer(column_names=['mean_temp', 'profile_1'],
             #                                             new_column_name='temp_hour_p1',
             #                                             derive_func=transforms.multiply_columns)
@@ -131,19 +125,28 @@ def make_pipeline():
                     derive_func=transforms.multiply_columns,
                 ),
             ),
-            (
-                "create_interaction_month_hour_profile_1",
-                transforms.MultiColumnTransformer(
-                    column_names=["month", "profile_1"],
-                    new_column_name="month_hour_p1",
-                    derive_func=transforms.multiply_columns,
-                ),
-            ),
+
             (
                 "create_interaction_month_hour",
                 transforms.MultiColumnTransformer(
                     column_names=["month", "hour"],
                     new_column_name="month_hour",
+                    derive_func=transforms.multiply_columns,
+                ),
+            ),
+
+            (
+                "create_non_linear_hour_features",
+                transforms.HourlyProfileTransformer(
+                    datetime_column_name="datetime",
+                    feature_path=daily_load_profile_path,
+                ),
+            ),
+            (
+                "create_interaction_month_hour_profile_1",
+                transforms.MultiColumnTransformer(
+                    column_names=["month", "profile_1"],
+                    new_column_name="month_hour_p1",
                     derive_func=transforms.multiply_columns,
                 ),
             ),

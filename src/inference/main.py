@@ -13,15 +13,19 @@ def main(model_name, n_days: int):
 
     prediction_dates = inf.generate_hr_dates_from_days(n_days=n_days)
     temperature_data = inf.get_datetime_temperature(prediction_dates)
-    inference_input_data = inf.make_inference_data(prediction_dates, temperature_data)
+    print(len(prediction_dates), len(temperature_data))
+    # inference_input_data = inf.make_inference_data(prediction_dates, temperature_data)
 
+    # print(len(prediction_dates), len(temperature_data), len(inference_input_data))
     model = inf.load_model(model_name=model_name)
-    predicted_load = model.predict(inference_input_data)
+    predicted_load = model.predict(temperature_data)
 
+    # prediction_datetime_load = pd.DataFrame(
+    #     {"datetime": prediction_dates, "predicted_load": predicted_load}
+    # )
     prediction_datetime_load = pd.DataFrame(
-        {"datetime": prediction_dates, "predicted_load": predicted_load}
+        {"datetime": temperature_data['datetime'], "predicted_load": predicted_load}
     )
-
     return prediction_datetime_load
 
 
