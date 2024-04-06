@@ -3,3 +3,7 @@
         - because is appears there are fundamentally two types of days
         - could be as simple as a mapping
         ref: https://scikit-learn.org/stable/auto_examples/applications/plot_cyclical_feature_engineering.html#periodic-spline-features
+
+# api testing
+uvicorn src.api:app --host 0.0.0.0 --port 8000
+curl http://localhost:8000/predict -X GET   -H "Content-Type: application/json"   -d '{"days": 1, "model_name": "linear_model"}'
