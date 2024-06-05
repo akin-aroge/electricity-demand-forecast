@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+from src import utils
 
 
 def plot_overall_load(data: pd.DataFrame):
@@ -88,6 +89,12 @@ def plot_temperature_lag_correlations(data: pd.DataFrame):
     # set_plot_labels(axs, xlabel="temp")
     fig.tight_layout()
     return fig
+
+# def plot_sampled_24_hr_profile():
+#     from PIL import Image
+
+#     f_path = utils.get_proj_root().joinpath('reports/eval.png')
+#     img = Image.open(f_path)
 
 
 def set_plot_labels(ax, xlabel="datetime", ylabel="load, kWh"):

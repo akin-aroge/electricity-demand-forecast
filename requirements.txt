@@ -9,8 +9,8 @@ seaborn==0.13.2
 xgboost==2.0.3
 optuna==3.6.0
 altair==5.2.0
-uvicorn
-pydantic
-fastapi
+uvicorn==0.29.0
+pydantic==2.6.4
+fastapi==0.110.1
 # selenium
 # webdriver_manager

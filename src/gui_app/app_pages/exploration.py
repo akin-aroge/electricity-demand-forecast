@@ -2,7 +2,8 @@
 
 import streamlit as st
 import st_utils
-from src.gui_app import viz
+from src.gui_app import viz, stories
+from src import utils
 from src.modelling import training
 import pandas as pd
 import numpy as np
@@ -11,7 +12,7 @@ import numpy as np
 max_year = 2007
 min_year = 2005
 
-
+proj_root = utils.get_proj_root()
 def main():
 
     st.write(
@@ -19,12 +20,13 @@ def main():
             # Data Exploration
             This section shows an exploratory walkthrough of the input timeseries dataset 
             to the model. This dataset consists of hourly load and temperature 
-            values for a region in North Carolina.
+            values for a region in North Carolina. The analysis notebook which contains relevant
+            code may be found [here](https://github.com/akin-aroge/electricity-demand-forecast/blob/main/notebooks/01-data-exploration.ipynb)
 """
     )
 
     data = st_utils.get_exploration_data()
-
+    sec_24_hour_profile()
     sec_overall_load(data=data)
     sec_temperature_timeseries(data=data, temperature_stations_filter=True)
     sec_demand_by_time()
@@ -34,6 +36,26 @@ def main():
     sec_correlations()
     sec_temp_load_corr(data=data)
     sec_temp_lags_corr(data=data)
+    
+
+def sub_sec_image_comment(im_name, comment):
+    """ display an image and show the comment below it """
+
+    f_path = str(utils.get_proj_root().joinpath(f'reports/{im_name}'))
+    st.image(f_path)
+    st.write(comment)
+
+
+def sec_24_hour_profile():
+    st.write(stories.ON_24HR_TREND_INTRO)
+
+    sub_sec_image_comment(im_name='daily_trend.png', comment=stories.ON_24HR_TREND_PLOT)
+    sub_sec_image_comment(im_name='pca_plot.png', comment=stories.ON_PCA_RESULT)
+    sub_sec_image_comment(im_name='pca_coeffs.png', comment=stories.ON_PCA_COEFFS)
+    sub_sec_image_comment(im_name='pca_cluster.png', comment=stories.ON_PCA_COEFFS_CLUSTER)
+    sub_sec_image_comment(im_name='pca_cluster_profile.png', comment=stories.ON_PCA_CLUSTER_PROFILES)
+    sub_sec_image_comment(im_name='pca_coeffs_month.png', comment=stories.ON_PCA_COEFFS_MONTHS)
+
 
 
 def sec_overall_load(data: pd.DataFrame):
@@ -41,6 +63,8 @@ def sec_overall_load(data: pd.DataFrame):
     st.write(
         """
 ## Demand Trend Over Time
+Now we would proceed to explicitly explore the correlation of the demand with various time components.
+
 The figure shows a plot of hourly electricity demand.
 """
     )
@@ -231,6 +255,7 @@ Depending on the type of model being used, lag features may be engineered
         in the model building process.
 """
     )
+
 
 
 def year_slider():
