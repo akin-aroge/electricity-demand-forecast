@@ -24,10 +24,10 @@ def model_select_ui():
 def pred_horizon_ui():
     st.sidebar.markdown("# Input")
     n_days = st.sidebar.slider(
-        "Set number of days (pred. horizon)",
+        "Set number of days (pred. horizon):",
         min_value=1,
         max_value=365,
-        value=1,
+        value=3,
         step=1,
     )
     return n_days

@@ -8,7 +8,7 @@ from src.gui_app.app_pages import inference, exploration
 st.set_page_config(page_title="Electricy Demand Predition", layout="wide")
 
 
-APP_MODES = ["exploratory analysis", "inference"]
+APP_MODES = ["Exploratory analysis", "Inference"]
 
 
 def main():
@@ -27,7 +27,14 @@ def main():
     st.caption(
         "Analysis Notebook: [link](https://github.com/akin-aroge/electricity-demand-forecast/blob/main/notebooks/01-data-exploration.ipynb)"
     )
-    app_mode = st.sidebar.selectbox("Choose the app mode", APP_MODES, index=1)
+    # app_mode = st.sidebar.selectbox("Choose the app mode", APP_MODES, index=1)
+    app_mode = st.sidebar.radio(
+        label="Choose Page:",
+        options=APP_MODES,
+        captions=['', 'inference results from two models'],
+        index=0,
+
+    )
     if app_mode == "inference":
         inference.main()
     elif app_mode == "exploratory analysis":
