@@ -13,6 +13,11 @@ The [interactive UI](https://electricity-demand-prediction.streamlit.app/) provi
 
 ![dashboard_snapshot](./reports/ui_snapshot.PNG?raw=true)
 
+## Analysis
+Below is a summany of the Analysis. The relevant exploratory analysis notebook with code for generating the plots and more may be found [here](./notebooks/01-data-exploration.ipynb)
+
+![exploratory_analysis_summary](./reports/electricity%20demand%20prediction%20exploration.drawio.png)
+
 ## Modelling Results
 The figure shows the influence of added features on the model performance (MAPE); and the test result for the best version of each model, as explored in the notebook [here](./notebooks/03-training.ipynb). 
 

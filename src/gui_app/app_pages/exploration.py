@@ -1,7 +1,7 @@
 """Data Exploration Page"""
 
 import streamlit as st
-import st_utils
+from src.gui_app import st_utils
 from src.gui_app import viz, stories
 from src import utils
 from src.modelling import training

@@ -1,7 +1,7 @@
 """gui inference page"""
 
 import streamlit as st
-import st_utils
+from src.gui_app import st_utils
 
 
 def main():
