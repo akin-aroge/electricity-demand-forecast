@@ -8,7 +8,7 @@ from src.gui_app.app_pages import inference, exploration
 st.set_page_config(page_title="Electricy Demand Predition", layout="wide")
 
 
-APP_MODES = ["Exploratory analysis", "Inference"]
+APP_MODES = ["Exploratory Analysis", "Inference"]
 
 
 def main():
@@ -35,9 +35,9 @@ def main():
         index=0,
 
     )
-    if app_mode == "inference":
+    if app_mode == "Inference":
         inference.main()
-    elif app_mode == "exploratory analysis":
+    elif app_mode == "Exploratory Analysis":
         exploration.main()
 
 
